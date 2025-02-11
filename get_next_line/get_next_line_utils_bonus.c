@@ -6,26 +6,26 @@
 /*   By: lbellmas <lbellmas@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:32:40 by lbellmas          #+#    #+#             */
-/*   Updated: 2024/11/22 14:28:27 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:51:00 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_strdup(char *s)
+char	*ft_get_strdup(char *s)
 {
 	char	*p;
 	size_t	len;
 
-	len = ft_strlen(s);
+	len = ft_get_strlen(s);
 	p = (char *)malloc((len + 1) * sizeof(char));
 	if (!p)
 		return (NULL);
-	ft_strlcpy(p, s, (len + 1));
+	ft_get_strlcpy(p, s, (len + 1));
 	return (p);
 }
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_get_strjoin(char *s1, char const *s2)
 {
 	char		*str;
 	size_t		len;
@@ -33,8 +33,8 @@ char	*ft_strjoin(char *s1, char const *s2)
 
 	p = 0;
 	if (!s1 && !s2)
-		return (ft_strdup(""));
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+		return (ft_get_strdup(""));
+	len = ft_get_strlen(s1) + ft_get_strlen(s2) + 1;
 	str = (char *)malloc(len * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -46,11 +46,11 @@ char	*ft_strjoin(char *s1, char const *s2)
 		p++;
 	}
 	free(s1);
-	ft_strlcpy((str + p), s2, (len - p + 1));
+	ft_get_strlcpy((str + p), s2, (len - p + 1));
 	return (str);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_get_bzero(void *s, size_t n)
 {
 	unsigned char	*p;
 	size_t			i;
@@ -64,7 +64,7 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_get_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	s;
 
@@ -78,10 +78,10 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		}
 		dst[s] = '\0';
 	}
-	return (ft_strlen(src));
+	return (ft_get_strlen(src));
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_get_strlen(const char *str)
 {
 	size_t	p;
 

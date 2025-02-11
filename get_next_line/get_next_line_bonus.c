@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:28:43 by lbellmas          #+#    #+#             */
-/*   Updated: 2024/11/22 14:27:57 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:51:44 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ char	*get_next_line(int fd)
 	if (rest[fd] && rest[fd][0] != '\0')
 		str_final = ft_rest(rest, fd);
 	else
-		str_final = ft_strdup("");
+		str_final = ft_get_strdup("");
 	if (!str_final)
 		return (NULL);
-	if (!ft_strchr(str_final, '\n'))
+	if (!ft_get_strchr(str_final, '\n'))
 		str_final = ft_read_join(rest, str_final, fd);
 	if (!str_final || str_final[0] == '\0')
 	{
@@ -59,23 +59,23 @@ char	*ft_read_join(char **rest, char *str_final, int fd)
 	str_join = malloc(BUFFER_SIZE + 1);
 	if (!str_join)
 		return (free_and_nullify(&str_final, NULL));
-	ft_bzero(str_join, BUFFER_SIZE + 1);
+	ft_get_bzero(str_join, BUFFER_SIZE + 1);
 	while (read(fd, str_join, BUFFER_SIZE) > 0)
 	{
-		if (ft_strchr(str_join, '\n'))
+		if (ft_get_strchr(str_join, '\n'))
 		{
-			rest[fd] = ft_strdup(ft_strchr(str_join, '\n') + 1);
+			rest[fd] = ft_get_strdup(ft_get_strchr(str_join, '\n') + 1);
 			if (!rest[fd])
 				return (free_and_nullify(&str_final, &str_join));
-			ft_bzero(ft_strchr(str_join, '\n') + 1, BUFFER_SIZE
-				- (ft_strchr(str_join, '\n') - str_join) - 1);
-			str_final = ft_strjoin(str_final, str_join);
+			ft_get_bzero(ft_get_strchr(str_join, '\n') + 1, BUFFER_SIZE
+				- (ft_get_strchr(str_join, '\n') - str_join) - 1);
+			str_final = ft_get_strjoin(str_final, str_join);
 			break ;
 		}
-		str_final = ft_strjoin(str_final, str_join);
+		str_final = ft_get_strjoin(str_final, str_join);
 		if (!str_final)
 			return (free_and_nullify(NULL, &str_join));
-		ft_bzero(str_join, BUFFER_SIZE);
+		ft_get_bzero(str_join, BUFFER_SIZE);
 	}
 	return (free(str_join), str_final);
 }
@@ -86,26 +86,26 @@ char	*ft_rest(char **rest, int fd)
 
 	if (rest[fd][0] == '\n')
 	{
-		str = ft_strdup("\n");
+		str = ft_get_strdup("\n");
 		if (rest[fd][1] == '\0')
 			free_and_nullify(&rest[fd], NULL);
 		else
-			ft_strlcpy(rest[fd], rest[fd] + 1, ft_strlen(rest[fd]));
+			ft_get_strlcpy(rest[fd], rest[fd] + 1, ft_get_strlen(rest[fd]));
 		return (str);
 	}
-	str = ft_strdup(rest[fd]);
-	if (str && ft_strchr(str, '\n'))
+	str = ft_get_strdup(rest[fd]);
+	if (str && ft_get_strchr(str, '\n'))
 	{
-		ft_bzero(ft_strchr(str, '\n') + 1, ft_strlen(str)
-			- (ft_strchr(str, '\n') - str) - 1);
-		ft_strlcpy(rest[fd], ft_strchr(rest[fd], '\n') + 1, BUFFER_SIZE);
+		ft_get_bzero(ft_get_strchr(str, '\n') + 1, ft_get_strlen(str)
+			- (ft_get_strchr(str, '\n') - str) - 1);
+		ft_get_strlcpy(rest[fd], ft_get_strchr(rest[fd], '\n') + 1, BUFFER_SIZE);
 	}
 	else
 		free_and_nullify(&rest[fd], NULL);
 	return (str);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_get_strchr(const char *s, int c)
 {
 	unsigned char	ch;
 	size_t			p;
