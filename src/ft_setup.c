@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:30:39 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/10 17:00:46 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:32:19 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,10 @@ t_map	*ft_setup(int fd)
 		free (str);
 		str = get_next_line(fd);
 	}
-	if (ft_check_matrix(matrix) != -1)
-	{
-		map = ft_mapping(matrix, map);
-	}
-	ft_clear(matrix, ft_ycalculate(matrix));
+	//if (ft_check_matrix(matrix) != -1)
+	map = ft_mapping(matrix, map);
+	map->zoom = 2.5;
+	//ft_clear(matrix, map->width); // PETA 
 	ft_printf("finish setup\n");
 	return (map);
 }
