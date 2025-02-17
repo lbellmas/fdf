@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:31:44 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/12 11:44:05 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:28:34 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ typedef struct s_point
 
 typedef	struct s_map
 {
-	float	zoom;
+	int	pluswidth;
+	int	plusheight;
+	int	zoom;
 	int	perspective;
 	int	rotation;
 	int		width;
@@ -51,9 +53,11 @@ t_map	*ft_setup(int fd);
 int	*ft_atoiloop(char *str, t_map *map);
 void	ft_clear(int **matrix, int i);
 // algoritm
-t_point	ft_right_up(t_point a_final, t_point b_final);
-t_point	ft_left_up(t_point a_final, t_point b_final);
-t_point	ft_right(t_point a_final, t_point b_final);
-t_point	ft_left(t_point a_final, t_point b_final);
+void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final);
+void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final);
+//t_point	ft_right_up(t_point a_final, t_point b_final);
+//t_point	ft_left_up(t_point a_final, t_point b_final);
+//t_point	ft_right(t_point a_final, t_point b_final, t_map *map);
+//t_point	ft_left(t_point a_final, t_point b_final, t_map *map);
 
 #endif

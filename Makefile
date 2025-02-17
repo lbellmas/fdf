@@ -6,7 +6,7 @@
 #    By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 14:55:54 by lbellmas          #+#    #+#              #
-#    Updated: 2025/02/12 11:16:54 by lbellmas         ###   ########.fr        #
+#    Updated: 2025/02/17 16:23:19 by lbellmas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ all: $(PRINTF) $(NAME) $(HEAD) Makefile
 
 $(NAME): $(MAIN) $(OBJ) $(OUTILS) $(MLX) $(OGETNEXT)
 	@printf "%-42b%b" "$(PURPLE)$<:" "$(BLUE)$(@F)$(RESET)\n"
-	@$(CC) $(MLX_FLAGS) $(MLX) $(MAIN) $(OUTILS) $(OGETNEXT) $(OBJ) $(PRINTF) $(MLX) -o $(NAME)
+	@$(CC) $(CFLAGS) $(MLX_FLAGS) $(MLX) $(MAIN) $(OUTILS) $(OGETNEXT) $(OBJ) $(PRINTF) $(MLX) -o $(NAME)
 	
 
 $(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile | $(OBJDIR) $(DEPSDIR)

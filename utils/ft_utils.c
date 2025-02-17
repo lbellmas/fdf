@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:19:08 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/10 16:57:14 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:36:45 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ int	*ft_atoiloop(char *str, t_map *map)
 	int		*nbrs;
 	int		p;
 	char	**split;
+	
 
+	str = ft_strtrim(str, "\n");
 	split = ft_split(str, ' ');
 	p = 0;
-	nbrs = (int *)malloc(ft_strlen(str) * sizeof(int));
+	nbrs = (int *)malloc(ft_lenght(split) * sizeof(int));
 	map->width = ft_lenght(split);
 	map = NULL;
-	while (str[p])
+	while (split[p])
 	{
-		nbrs[p] = ft_atoi(&str[p]);
+		nbrs[p] = ft_atoi(split[p]);
 		if (!nbrs && str[p] != '0')
 			return (NULL);
 		p++;
