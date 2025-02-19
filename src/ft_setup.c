@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:30:39 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/17 14:27:54 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:41:41 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	**ft_matrix_join(int **matrix, int *add, t_map *map)
 	return (new);
 }
 
-t_map	*ft_setup(int fd)
+t_map	*ft_setup(int fd, char *argv)
 {
 	int		**matrix;
 	int		*temp;
@@ -85,8 +85,8 @@ t_map	*ft_setup(int fd)
 	{
 		ft_printf("ft_atoiloop\n");
 		temp = ft_atoiloop(str, map);
-		if (!temp)
-			return (ft_clear(matrix, ft_ycalculate(matrix)), NULL);
+//		if (!temp)
+//			return (ft_clear(matrix, ft_lenght(matrix)), NULL);
 		ft_printf("ft_matrix\n");
 		matrix = ft_matrix_join(matrix, temp, map);
 		ft_printf("get_next_line\n");
@@ -94,9 +94,11 @@ t_map	*ft_setup(int fd)
 		free (str);
 		str = get_next_line(fd);
 	}
+	close(fd);
 	//if (ft_check_matrix(matrix) != -1)
 	map = ft_mapping(matrix, map);
-	map->zoom = 1;
+	ft_colors(map, fd, argv, str);
+	map->zoom = 0;
 	//ft_clear(matrix, map->width); // PETA 
 	ft_printf("finish setup\n");
 	return (map);

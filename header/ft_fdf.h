@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:31:44 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/17 16:28:34 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:38:09 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_point
 	int	x;
 	int	y;
 	int	z;
-	int	color;
+	uint32_t	color;
 } t_point;
 
 typedef	struct s_map
@@ -49,9 +49,13 @@ t_map	*ft_mapping(int	**matrix, t_map *map);
 int	ft_ycalculate(int **matrix);
 int	ft_xcalculate(int *matrix);
 int	**ft_matrix_join(int **matrix, int *add, t_map *map);
-t_map	*ft_setup(int fd);
+t_map	*ft_setup(int fd, char *argv);
 int	*ft_atoiloop(char *str, t_map *map);
 void	ft_clear(int **matrix, int i);
+void ft_checkpoint(t_point *point);
+void	ft_colors(t_map *map, int fd, char *argv, char *str);
+int	ft_lenght(char **split);
+void	ft_black(t_map *map);
 // algoritm
 void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final);
 void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final);

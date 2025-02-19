@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:31:02 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/17 13:08:21 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:18:22 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,33 @@ void	draw_line_low(mlx_image_t *img, t_point inicial, t_point final)
 	int dy;
 	int step_x;
 	int step_y;
+	uint32_t color;
+	int distance;
+	int midpoint;
 
 	dx = abs(final.x - inicial.x);
-	dy = abs(final.y - inicial.y); // Asegurar valores absolutos
-	step_x = (final.x > inicial.x) ? 1 : -1; // Dirección en X
-	step_y = (final.y > inicial.y) ? 1 : -1; // Dirección en Y
+	dy = abs(final.y - inicial.y);
+	step_x = (final.x > inicial.x) ? 1 : -1;
+	step_y = (final.y > inicial.y) ? 1 : -1;
+
+	ft_checkpoint(&final);
+	ft_checkpoint(&inicial);
+	color = inicial.color;
+
+	// Calcular la distancia total de la línea
+	distance = (dx > dy) ? dx : dy;
+	midpoint = distance / 2;
 
 	formula = (2 * dy) - dx;
-	while (inicial.x != final.x) // Corrección: permitir avanzar en ambas direcciones
+	for (int i = 0; i <= distance; i++)
 	{
-		mlx_put_pixel(img, inicial.x, inicial.y, inicial.color);
+		ft_checkpoint(&inicial);
+		mlx_put_pixel(img, inicial.x, inicial.y, color);
+
+		// Cambio de color en el punto medio
+		if (i == midpoint)
+			color = final.color;
+
 		if (formula > 0)
 		{
 			inicial.y += step_y;
@@ -39,8 +56,44 @@ void	draw_line_low(mlx_image_t *img, t_point inicial, t_point final)
 		}
 		formula += (2 * dy);
 		inicial.x += step_x;
+		ft_checkpoint(&inicial);
 	}
 }
+
+/*void	draw_line_low(mlx_image_t *img, t_point inicial, t_point final)
+{
+	int formula;
+	int dx;
+	int dy;
+	int step_x;
+	int step_y;
+	uint32_t	color;
+
+	dx = abs(final.x - inicial.x);
+	dy = abs(final.y - inicial.y);
+	step_x = (final.x > inicial.x) ? 1 : -1;
+	step_y = (final.y > inicial.y) ? 1 : -1;
+
+	ft_checkpoint(&final);
+	ft_checkpoint(&inicial);
+	color = inicial.color;
+	formula = (2 * dy) - dx;
+	while (inicial.x != final.x)
+	{
+		ft_checkpoint(&inicial);
+		mlx_put_pixel(img, inicial.x, inicial.y, color);
+		if (formula > 0)
+		{
+			inicial.y += step_y;
+			formula -= (2 * dx);
+		}
+		formula += (2 * dy);
+		inicial.x += step_x;
+		if (inicial.x > step_x + ((final.x - step_x) / 2))
+			color = final.color;
+		ft_checkpoint(&inicial);
+	}
+}*/
 
 /*void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final)
 {
@@ -76,16 +129,33 @@ void	draw_line_high(mlx_image_t *img, t_point inicial, t_point final)
 	int dy;
 	int step_x;
 	int step_y;
+	uint32_t color;
+	int distance;
+	int midpoint;
 
 	dx = abs(final.x - inicial.x);
-	dy = abs(final.y - inicial.y); // Asegurar valores absolutos
-	step_x = (final.x > inicial.x) ? 1 : -1; // Dirección en X
-	step_y = (final.y > inicial.y) ? 1 : -1; // Dirección en Y
+	dy = abs(final.y - inicial.y);
+	step_x = (final.x > inicial.x) ? 1 : -1;
+	step_y = (final.y > inicial.y) ? 1 : -1;
+
+	ft_checkpoint(&final);
+	ft_checkpoint(&inicial);
+	color = inicial.color;
+
+	// Calcular la distancia total de la línea
+	distance = (dx > dy) ? dx : dy;
+	midpoint = distance / 2;
 
 	formula = (2 * dx) - dy;
-	while (inicial.y != final.y) // Corrección: recorrer correctamente en Y
+	for (int i = 0; i <= distance; i++)
 	{
-		mlx_put_pixel(img, inicial.x, inicial.y, inicial.color);
+		ft_checkpoint(&inicial);
+		mlx_put_pixel(img, inicial.x, inicial.y, color);
+
+		// Cambio de color en el punto medio
+		if (i == midpoint)
+			color = final.color;
+
 		if (formula > 0)
 		{
 			inicial.x += step_x;
@@ -93,8 +163,53 @@ void	draw_line_high(mlx_image_t *img, t_point inicial, t_point final)
 		}
 		formula += (2 * dx);
 		inicial.y += step_y;
+		ft_checkpoint(&inicial);
 	}
 }
+
+/*void	draw_line_high(mlx_image_t *img, t_point inicial, t_point final)
+{
+	int formula;
+	int dx;
+	int dy;
+	int step_x;
+	int step_y;
+	uint32_t	color;
+
+	dx = abs(final.x - inicial.x);
+	dy = abs(final.y - inicial.y); // Asegurar valores absolutos
+	step_x = (final.x > inicial.x) ? 1 : -1; // Dirección en X
+	step_y = (final.y > inicial.y) ? 1 : -1; // Dirección en Y
+
+	ft_checkpoint(&final);
+	ft_checkpoint(&inicial);
+	color = inicial.color;
+	formula = (2 * dx) - dy;
+	while (inicial.y != final.y) // Corrección: recorrer correctamente en Y
+	{
+		ft_checkpoint(&inicial);
+		mlx_put_pixel(img, inicial.x, inicial.y, color);
+		if (formula > 0)
+		{
+			inicial.x += step_x;
+			formula -= (2 * dy);
+		}
+		formula += (2 * dx);
+		inicial.y += step_y;
+		if (step_y < 0)
+		{
+			if (abs(inicial.y) >= abs(final.y / 2))
+				color = final.color;
+		}
+		else
+		{
+			if (abs(inicial.y) <= abs(final.y / 2))
+				color = final.color;
+		}
+		ft_checkpoint(&inicial);
+	}
+
+}*/
 
 
 /*void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final)
