@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:31:02 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/19 12:18:22 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:37:44 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	draw_line_low(mlx_image_t *img, t_point inicial, t_point final)
 	midpoint = distance / 2;
 
 	formula = (2 * dy) - dx;
+	if ((inicial.y == 0 && final.y == 0) || (inicial.x == 0 && final.x == 0))
+		return ;
 	for (int i = 0; i <= distance; i++)
 	{
 		ft_checkpoint(&inicial);
@@ -145,7 +147,8 @@ void	draw_line_high(mlx_image_t *img, t_point inicial, t_point final)
 	// Calcular la distancia total de la línea
 	distance = (dx > dy) ? dx : dy;
 	midpoint = distance / 2;
-
+	if ((inicial.y == 0 && final.y == 0) || (inicial.x == 0 && final.x == 0))
+		return ;
 	formula = (2 * dx) - dy;
 	for (int i = 0; i <= distance; i++)
 	{

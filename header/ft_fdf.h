@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:31:44 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/19 15:38:09 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:30:08 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ typedef struct s_point
 
 typedef	struct s_map
 {
+	int	select_color;
+	int	a_updown;
+	int	a_rightleft;
+	int	a_rotation;
 	int	pluswidth;
 	int	plusheight;
 	int	zoom;
@@ -56,6 +60,8 @@ void ft_checkpoint(t_point *point);
 void	ft_colors(t_map *map, int fd, char *argv, char *str);
 int	ft_lenght(char **split);
 void	ft_black(t_map *map);
+long	ft_atohexa(char *str);
+void	ft_putcolor(t_point *point, char *str);
 // algoritm
 void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final);
 void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final);

@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:47:50 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/11 11:08:48 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:00:52 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_map	*ft_mapping(int	**matrix, t_map *map)
 	p = 0;
 	points = (t_point **)malloc(map->height * map->width
 			* sizeof(t_point *));
-	ft_checking_matrix(matrix, map);
+//	ft_checking_matrix(matrix, map);
 	while (y < map->height)
 	{
 		x = 0;

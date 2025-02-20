@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:26:54 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/19 16:02:29 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:59:36 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,39 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		map->perspective = 0;
 	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
 		map->perspective = 2;
-	//ft_printf("%i", (*map).zoom);
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
+		map->a_rightleft += 1;
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
+		map->a_rightleft -= 1;
+	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
+		map->a_updown += 1;
+	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
+		map->a_updown -= 1;
+	if (keydata.key == MLX_KEY_Z && keydata.action == MLX_PRESS)
+		map->a_rotation += 1;
+	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
+		map->a_rotation -= 1;
+	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS)
+	{
+		map->a_rotation = 0;
+		map->a_updown = 0;
+		map->a_rightleft = 0;
+		map->zoom = 0;
+		map->pluswidth = 0;
+		map->plusheight = 0;
+	}
+	if (keydata.key == MLX_KEY_0 && keydata.action == MLX_PRESS)
+		map->select_color = 0;
+	if (keydata.key == MLX_KEY_1 && keydata.action == MLX_PRESS)
+		map->select_color = 1;
 	ft_check_draw(map);
 }
 
 void	ft_isometric(t_point *final)
 {
-	int	prev_x;
 	int	prev_y;
 
 	prev_y = final->y;
-	prev_x = final->x;
 	final->x = (final->x + final->y) * cos(0.785398);
 	final->y = ((prev_y * sin(0.615472907)) - final->z);
 }
@@ -72,6 +94,58 @@ void	ft_zoom(t_point *final, int	zoom, t_map *map)
 	}
 }
 
+void ft_rotation(t_point *point, t_map *map)
+{
+    double x, y, z;
+
+    if (map->a_updown != 0)
+    {
+        x = point->x;
+        y = point->y;
+        z = point->z;
+        
+        point->y = (y * cos(map->a_updown * M_PI / 180)) - (z * sin(map->a_updown * M_PI / 180));
+        point->z = (y * sin(map->a_updown * M_PI / 180)) + (z * cos(map->a_updown * M_PI / 180));
+    }
+    if (map->a_rightleft != 0)
+    {
+        x = point->x;
+        y = point->y;
+        z = point->z;
+        
+        point->x = (x * cos(map->a_rightleft * M_PI / 180)) + (z * sin(map->a_rightleft * M_PI / 180));
+        point->z = (-x * sin(map->a_rightleft * M_PI / 180)) + (z * cos(map->a_rightleft * M_PI / 180));
+    }
+    if (map->a_rotation != 0)
+    {
+        x = point->x;
+        y = point->y;
+        z = point->z;
+        
+        point->x = (x * cos(map->a_rotation * M_PI / 180)) - (y * sin(map->a_rotation * M_PI / 180));
+        point->y = (x * sin(map->a_rotation * M_PI / 180)) + (y * cos(map->a_rotation * M_PI / 180));
+    }
+}
+//0xFFA500ff
+void	ft_selectcolor(t_point *point)
+{
+	uint32_t temp = (uint32_t)ft_atohexa("FFA500");
+	if ((temp & 0xFF000000) == 0)
+		temp |= 0xFF000000;
+	uint8_t A = (temp >> 24) & 0xFF;
+	uint8_t R = (temp >> 16) & 0xFF;
+	uint8_t G = (temp >> 8) & 0xFF;
+	uint8_t B = temp & 0xFF;
+	float factor = (float)point->z / 255.0f;
+	if (factor > 1.0f)
+		factor = 1.0f;
+	R = R + (255 - R) * factor;
+	G = G + (255 - G) * factor;
+	B = B + (255 - B) * factor;
+
+	point->color = (R << 24) | (G << 16) | (B << 8) | A;
+}
+
 void	ft_arrange_point(t_point *final, t_point *point, t_map *map)
 {
 	int temp;
@@ -79,13 +153,16 @@ void	ft_arrange_point(t_point *final, t_point *point, t_map *map)
 	temp = point->y;
 	final->y = point->z;
 	final->z = temp;
-	final->color = point->color;
-	ft_zoom(final, map->zoom, map); // multi 2.5
+	if (map->select_color == 0)
+		final->color = point->color;
+	else
+		ft_selectcolor(final);
+	ft_zoom(final, map->zoom, map);
 	if (map->perspective == 1)
 		ft_isometric(final); // o otra perspectiva
 	if (map->perspective == 2)
 		final->y = temp * 10;
-//	ft_rotacion()// multiplicr por rotacion
+	ft_rotation(final, map);
 	final->x = final->x + 1000 + map->pluswidth;
 	final->y = final->y + 450 + map->plusheight;
 }
@@ -97,8 +174,6 @@ void	ft_draw_line(t_point *a, t_point *b, t_map *map)
 
 	ft_arrange_point(&a_final, a, map);
 	ft_arrange_point(&b_final, b, map);
-	//ft_printf("ax: %i, ay: %i \n", a_final.x, a_final.y);
-	//ft_printf("bx: %i, by: %i \n", b_final.x, b_final.y);
 	if (abs(b_final.y - a_final.y) < abs(b_final.x - a_final.x))
 	{
 		
@@ -123,8 +198,6 @@ void	ft_check_draw(t_map *map)
 
 	p = 0;
 	p_width = 1;
-//	ft_memset(map->img->pixels, 0x000000FF, map->img->width * map->img->height
-//			* sizeof(int32_t));
 	ft_black(map);
 	while (p < (map->width * map->height))
 	{
@@ -143,9 +216,11 @@ void	ft_draw(t_map *map)
 	map->perspective = 1;
 	map->plusheight = 0;
 	map->plusheight = 0;
-	ft_printf("draw\n");
+	map->a_updown = 0;
+	map->a_rightleft = 0;
+	map->a_rotation = 0;
+	map->select_color = 0;
 	ft_check_draw(map);
-	ft_printf("image to window\n");
 	mlx_image_to_window(map->mlx, map->img, 0, 0);
 	mlx_key_hook(map->mlx, my_keyhook, map);
 	mlx_loop(map->mlx);

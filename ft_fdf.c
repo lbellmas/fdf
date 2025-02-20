@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 17:54:34 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/19 12:40:53 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:58:50 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 	fd = ft_parsing(argv[1]);
 	if (fd == -1)
 		return (ft_printf("ERROR OPENING\n"));
-	ft_printf("going to ft_setup\n");
 	map = ft_setup(fd, argv[1]);
 	map->mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	map->img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
