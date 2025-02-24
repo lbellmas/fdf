@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:26:54 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:59:36 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:35:43 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		map->a_rotation += 1;
 	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
 		map->a_rotation -= 1;
+	if (keydata.key == MLX_KEY_U && keydata.action == MLX_PRESS)
+		map->perspective = 3;
+	if (keydata.key == MLX_KEY_Y && keydata.action == MLX_PRESS)
+		map->perspective = 4;
+	if (keydata.key == MLX_KEY_T && keydata.action == MLX_PRESS)
+		map->perspective = 5;
 	if (keydata.key == MLX_KEY_ENTER && keydata.action == MLX_PRESS)
 	{
 		map->a_rotation = 0;
@@ -69,17 +75,99 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		map->select_color = 0;
 	if (keydata.key == MLX_KEY_1 && keydata.action == MLX_PRESS)
 		map->select_color = 1;
+	if (keydata.key == MLX_KEY_2 && keydata.action == MLX_PRESS)
+		map->select_color = 2;
+	if (keydata.key == MLX_KEY_3 && keydata.action == MLX_PRESS)
+		map->select_color = 3;
+	if (keydata.key == MLX_KEY_4 && keydata.action == MLX_PRESS)
+		map->select_color = 4;
 	ft_check_draw(map);
 }
 
-void	ft_isometric(t_point *final)
+/*void	ft_isometric(t_point *final)
 {
 	int	prev_y;
 
 	prev_y = final->y;
 	final->x = (final->x + final->y) * cos(0.785398);
 	final->y = ((prev_y * sin(0.615472907)) - final->z);
+}*/
+
+void	ft_isometric(t_point *final)
+{
+	double	angle = 0.523599; // 30° en radianes
+	double	prev_x = final->x;
+
+	final->x = (prev_x - final->y) * cos(angle);
+	final->y = (prev_x + final->y) * sin(angle) - final->z;
 }
+
+/*void	ft_parallel(t_point *final)
+{
+	double angle = 0.523599; // 30° en radianes
+
+	double prev_x = final->x;
+	double prev_y = final->y;
+
+	final->x = (prev_x - prev_y) * cos(angle);
+	final->y = (prev_x + prev_y) * sin(angle) - final->z; // Aplica la altura sobre el eje vertical
+}*/
+
+void	ft_parallel(t_point *final)
+{
+	final->x = final->x + final->z * 0.5;  // Controla cuánto influye la profundidad en X
+	final->y = final->y + final->z * 0.5;  // Controla la inclinación sobre Y
+}
+
+void	ft_parallel_pure(t_point *final)
+{
+	final->x = final->x;  // No cambia
+	final->y = final->y - final->z;  // Z controla la elevación vertical
+}
+
+void	ft_conic(t_point *final, double d)
+{
+	double prev_x = final->x;
+	double prev_y = final->y;
+	double scale;
+
+	// d es la distancia al punto de fuga
+	if (final->z != 0)
+		scale = d / (d + final->z);
+	else
+		scale = 1;
+
+	// Ajuste para que la figura esté "acostada"
+	final->x = (prev_x - prev_y) * scale;
+	final->y = ((prev_x + prev_y) * scale) - final->z;
+}
+
+/*void	ft_parallel(t_point *final)
+{
+	double	angle = 0.523599; // 30° en radianes (puedes ajustar)
+
+	double	prev_x = final->x;
+	double	prev_y = final->y;
+
+	final->x = prev_x + final->z * cos(angle);
+	final->y = prev_y + final->z * sin(angle);
+}
+
+void	ft_conic(t_point *final, double d)
+{
+	double	prev_x = final->x;
+	double	prev_y = final->y;
+	double	scale;
+
+	// d es la distancia del punto de fuga (ajustable)
+	if (final->z != 0)
+		scale = d / (d + final->z);
+	else
+		scale = 1;
+
+	final->x = prev_x * scale;
+	final->y = prev_y * scale;
+}*/
 
 void	ft_zoom(t_point *final, int	zoom, t_map *map)
 {
@@ -127,9 +215,9 @@ void ft_rotation(t_point *point, t_map *map)
     }
 }
 //0xFFA500ff
-void	ft_selectcolor(t_point *point)
+void	ft_selectcolor(t_point *point, char *original, int minus)
 {
-	uint32_t temp = (uint32_t)ft_atohexa("FFA500");
+	uint32_t temp = (uint32_t)ft_atohexa(original);
 	if ((temp & 0xFF000000) == 0)
 		temp |= 0xFF000000;
 	uint8_t A = (temp >> 24) & 0xFF;
@@ -139,8 +227,11 @@ void	ft_selectcolor(t_point *point)
 	float factor = (float)point->z / 255.0f;
 	if (factor > 1.0f)
 		factor = 1.0f;
+	if (minus > 2)
 	R = R + (255 - R) * factor;
+	if (minus > 1)
 	G = G + (255 - G) * factor;
+	if (minus > 0)
 	B = B + (255 - B) * factor;
 
 	point->color = (R << 24) | (G << 16) | (B << 8) | A;
@@ -155,13 +246,28 @@ void	ft_arrange_point(t_point *final, t_point *point, t_map *map)
 	final->z = temp;
 	if (map->select_color == 0)
 		final->color = point->color;
+	else if (map->select_color == 2)
+		ft_selectcolor(final, "FFA500ff", 2);
+	else if (map->select_color == 1)
+		ft_selectcolor(final, "FFA500", 3);
+	else if (map->select_color == 3)
+		ft_selectcolor(final, "000000", 1);
 	else
-		ft_selectcolor(final);
+		ft_selectcolor(final, "0F000000", 0);
 	ft_zoom(final, map->zoom, map);
 	if (map->perspective == 1)
 		ft_isometric(final); // o otra perspectiva
 	if (map->perspective == 2)
+	{
 		final->y = temp * 10;
+		final->z = point->z;
+	}
+	if (map->perspective == 3)
+		ft_parallel(final);
+	if (map->perspective == 4)
+		ft_conic(final, 500);
+	if (map->perspective == 5)
+		ft_parallel_pure(final);
 	ft_rotation(final, map);
 	final->x = final->x + 1000 + map->pluswidth;
 	final->y = final->y + 450 + map->plusheight;
@@ -174,6 +280,8 @@ void	ft_draw_line(t_point *a, t_point *b, t_map *map)
 
 	ft_arrange_point(&a_final, a, map);
 	ft_arrange_point(&b_final, b, map);
+	ft_checkpoint(&a_final);
+	ft_checkpoint(&b_final);
 	if (abs(b_final.y - a_final.y) < abs(b_final.x - a_final.x))
 	{
 		

@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:31:02 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/20 13:37:44 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:09:04 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ void	draw_line_low(mlx_image_t *img, t_point inicial, t_point final)
 	dy = abs(final.y - inicial.y);
 	step_x = (final.x > inicial.x) ? 1 : -1;
 	step_y = (final.y > inicial.y) ? 1 : -1;
-
+	
+	if (inicial.x < 0)
+		final.x = final.x + inicial.x;
+	if (inicial.y < 0)
+		final.y = final.y + inicial.y;
 	ft_checkpoint(&final);
 	ft_checkpoint(&inicial);
 	color = inicial.color;
@@ -140,6 +144,10 @@ void	draw_line_high(mlx_image_t *img, t_point inicial, t_point final)
 	step_x = (final.x > inicial.x) ? 1 : -1;
 	step_y = (final.y > inicial.y) ? 1 : -1;
 
+	if (inicial.x < 0)
+		final.x = final.x + inicial.x;
+	if (inicial.y < 0)
+		final.y = final.y + inicial.y;
 	ft_checkpoint(&final);
 	ft_checkpoint(&inicial);
 	color = inicial.color;
