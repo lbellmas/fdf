@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:31:44 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:30:08 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:38:33 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	ft_check_matrix(int **matrix);
 void	ft_draw(t_map *map);
 void	ft_draw_points(t_map *map);
 t_map	*ft_mapping(int	**matrix, t_map *map);
-int	ft_ycalculate(int **matrix);
-int	ft_xcalculate(int *matrix);
 int	**ft_matrix_join(int **matrix, int *add, t_map *map);
 t_map	*ft_setup(int fd, char *argv);
 int	*ft_atoiloop(char *str, t_map *map);
@@ -62,9 +60,10 @@ int	ft_lenght(char **split);
 void	ft_black(t_map *map);
 long	ft_atohexa(char *str);
 void	ft_putcolor(t_point *point, char *str);
+void	ft_errase_map(t_map *map);
 // algoritm
-void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final);
-void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final);
+void	draw_line_low(mlx_image_t	*img, t_point inicial, t_point final, uint32_t color);
+void	draw_line_high(mlx_image_t	*img, t_point inicial, t_point final, uint32_t color);
 //t_point	ft_right_up(t_point a_final, t_point b_final);
 //t_point	ft_left_up(t_point a_final, t_point b_final);
 //t_point	ft_right(t_point a_final, t_point b_final, t_map *map);

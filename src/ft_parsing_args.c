@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:02:31 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:59:07 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:41:39 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,4 @@ int	ft_parsing(char *argv)
 	if (fd == -1)
 		return (-1);
 	return (fd);
-}
-
-int	ft_check_matrix(int **matrix)
-{
-	int	y;
-
-	y = 1;
-	while (matrix[y])
-	{
-		if (ft_xcalculate(matrix[0]) != ft_xcalculate(matrix[y]))
-			return (-1);
-		y++;
-	}
-	return (0);
 }

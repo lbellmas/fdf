@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:26:54 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/24 12:35:43 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:37:40 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	{
 		mlx_close_window(((t_map *)param)->mlx);
 		mlx_terminate(((t_map *)param)->mlx);
+		ft_errase_map(map);
 		exit(1);
 	}
 	if (keydata.key == MLX_KEY_KP_ADD && keydata.action == MLX_PRESS)
@@ -84,15 +85,6 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	ft_check_draw(map);
 }
 
-/*void	ft_isometric(t_point *final)
-{
-	int	prev_y;
-
-	prev_y = final->y;
-	final->x = (final->x + final->y) * cos(0.785398);
-	final->y = ((prev_y * sin(0.615472907)) - final->z);
-}*/
-
 void	ft_isometric(t_point *final)
 {
 	double	angle = 0.523599; // 30° en radianes
@@ -101,17 +93,6 @@ void	ft_isometric(t_point *final)
 	final->x = (prev_x - final->y) * cos(angle);
 	final->y = (prev_x + final->y) * sin(angle) - final->z;
 }
-
-/*void	ft_parallel(t_point *final)
-{
-	double angle = 0.523599; // 30° en radianes
-
-	double prev_x = final->x;
-	double prev_y = final->y;
-
-	final->x = (prev_x - prev_y) * cos(angle);
-	final->y = (prev_x + prev_y) * sin(angle) - final->z; // Aplica la altura sobre el eje vertical
-}*/
 
 void	ft_parallel(t_point *final)
 {
@@ -141,33 +122,6 @@ void	ft_conic(t_point *final, double d)
 	final->x = (prev_x - prev_y) * scale;
 	final->y = ((prev_x + prev_y) * scale) - final->z;
 }
-
-/*void	ft_parallel(t_point *final)
-{
-	double	angle = 0.523599; // 30° en radianes (puedes ajustar)
-
-	double	prev_x = final->x;
-	double	prev_y = final->y;
-
-	final->x = prev_x + final->z * cos(angle);
-	final->y = prev_y + final->z * sin(angle);
-}
-
-void	ft_conic(t_point *final, double d)
-{
-	double	prev_x = final->x;
-	double	prev_y = final->y;
-	double	scale;
-
-	// d es la distancia del punto de fuga (ajustable)
-	if (final->z != 0)
-		scale = d / (d + final->z);
-	else
-		scale = 1;
-
-	final->x = prev_x * scale;
-	final->y = prev_y * scale;
-}*/
 
 void	ft_zoom(t_point *final, int	zoom, t_map *map)
 {
@@ -253,10 +207,10 @@ void	ft_arrange_point(t_point *final, t_point *point, t_map *map)
 	else if (map->select_color == 3)
 		ft_selectcolor(final, "000000", 1);
 	else
-		ft_selectcolor(final, "0F000000", 0);
+		ft_selectcolor(final, "FFFFFFFF", 0);
 	ft_zoom(final, map->zoom, map);
 	if (map->perspective == 1)
-		ft_isometric(final); // o otra perspectiva
+		ft_isometric(final);
 	if (map->perspective == 2)
 	{
 		final->y = temp * 10;
@@ -286,16 +240,16 @@ void	ft_draw_line(t_point *a, t_point *b, t_map *map)
 	{
 		
 		if (a_final.x > b_final.x)
-			draw_line_low(map->img, b_final, a_final);
+			draw_line_low(map->img, b_final, a_final, b_final.color);
 		else
-			draw_line_low(map->img, a_final, b_final);
+			draw_line_low(map->img, a_final, b_final, a_final.color);
 	}
 	else
 	{
 		if (a_final.y > b_final.y)
-			draw_line_high(map->img, b_final, a_final);
+			draw_line_high(map->img, b_final, a_final, b_final.color);
 		else
-			draw_line_high(map->img, a_final, b_final);
+			draw_line_high(map->img, a_final, b_final, a_final.color);
 	}
 }
 

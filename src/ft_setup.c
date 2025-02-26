@@ -6,33 +6,24 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:30:39 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:58:39 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:54:27 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/ft_fdf.h"
 #include "../get_next_line/get_next_line_bonus.h"
 
-int	ft_ycalculate(int **matrix)
+int	**ft_add_matrix(int	**new, int *add, t_map *map, int y)
 {
-	int	p;
+	int	x;
 
-	if (matrix == NULL)
-		return (0);
-	p = 0;
-	while (matrix[p])
-		p++;
-	return (p);
-}
-
-int	ft_xcalculate(int *matrix)
-{
-	int	p;
-
-	p = 0;
-	while (matrix[p])
-		p++;
-	return (p);
+	x = 0;
+	while (x < map->width)
+	{
+		new[y][x] = add[x];
+		x++;
+	}
+	return (new);
 }
 
 int	**ft_matrix_join(int **matrix, int *add, t_map *map)
@@ -40,14 +31,10 @@ int	**ft_matrix_join(int **matrix, int *add, t_map *map)
 	int	**new;
 	int	x;
 	int	y;
-	int	first;
 
-	first = 0;
 	y = 0;
-	if (matrix == NULL)
-		first = 1;
 	new = (int **)malloc((map->height + 1) * sizeof(int *));
-	while (first == 0 && y < map->height)
+	while (matrix && y < map->height)
 	{
 		new[y] = (int *)malloc(map->width * sizeof(int));
 		x = 0;
@@ -58,22 +45,17 @@ int	**ft_matrix_join(int **matrix, int *add, t_map *map)
 		}
 		y++;
 	}
-	x = 0;
 	new[y] = (int *)malloc(map->width * sizeof(int));
-	while (x < map->width)
-	{
-		new[y][x] = add[x];
-		x++;
-	}
 	if (matrix)
 		ft_clear(matrix, map->height);
+	new = (ft_add_matrix(new, add, map, y));
+	free(add);
 	return (new);
 }
 
 t_map	*ft_setup(int fd, char *argv)
 {
 	int		**matrix;
-	int		*temp;
 	t_map	*map;
 	char	*str;
 
@@ -83,19 +65,17 @@ t_map	*ft_setup(int fd, char *argv)
 	str = get_next_line(fd);
 	while (str)
 	{
-		temp = ft_atoiloop(str, map);
-//		if (!temp)
-//			return (ft_clear(matrix, ft_lenght(matrix)), NULL);
-		matrix = ft_matrix_join(matrix, temp, map);
+		matrix = ft_matrix_join(matrix, ft_atoiloop(str, map), map);
+		if (!matrix)
+			return (ft_clear(matrix, map->height), NULL);
 		map->height += 1;
 		free (str);
 		str = get_next_line(fd);
 	}
 	close(fd);
-	//if (ft_check_matrix(matrix) != -1)
 	map = ft_mapping(matrix, map);
 	ft_colors(map, fd, argv, str);
 	map->zoom = 0;
-	//ft_clear(matrix, map->width); // PETA 
+	ft_clear(matrix, map->height);
 	return (map);
 }
