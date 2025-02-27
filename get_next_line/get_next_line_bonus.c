@@ -6,7 +6,7 @@
 /*   By: lbellmas <lbellmas@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:28:43 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/10 11:51:44 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:04:44 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ char	*ft_rest(char **rest, int fd)
 	{
 		ft_get_bzero(ft_get_strchr(str, '\n') + 1, ft_get_strlen(str)
 			- (ft_get_strchr(str, '\n') - str) - 1);
-		ft_get_strlcpy(rest[fd], ft_get_strchr(rest[fd], '\n') + 1, BUFFER_SIZE);
+		ft_get_strlcpy(rest[fd], ft_get_strchr(rest[fd], '\n')
+			+ 1, BUFFER_SIZE);
 	}
 	else
 		free_and_nullify(&rest[fd], NULL);
@@ -122,26 +123,3 @@ char	*ft_get_strchr(const char *s, int c)
 		return ((char *)&s[p]);
 	return (NULL);
 }
-
-/*int	main(int argc, char *argv[])
-{
-	int	fd = open(argv[1], O_RDONLY);
-	//int	fd2 = open(argv[2], O_RDONLY);
-	char *word = get_next_line(fd);
-	//char *word2 = get_next_line(fd2);
-	while (word)
-	{
-		printf("%s", word);
-		//printf("%s", word2);
-		free(word);
-		//free(word2);
-		word = get_next_line(fd);
-		//word2 = get_next_line(fd2);
-	}
-	printf("%s", word);
-	//printf("%s", word2);
-	close(fd);
-	//close (fd2);
-	printf("%i", argc);
-	return (0);
-}*/

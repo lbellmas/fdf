@@ -6,11 +6,10 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:37:52 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/26 15:07:48 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:02:05 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../printf/header/ft_printf.h"
 #include "../get_next_line/get_next_line_bonus.h"
 #include "../header/ft_fdf.h"
 

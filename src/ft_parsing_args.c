@@ -6,12 +6,12 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:02:31 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/24 15:41:39 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:03:03 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/ft_fdf.h"
 #include "../printf/header/ft_printf.h"
+#include "../header/ft_fdf.h"
 #include <fcntl.h>
 
 int	ft_parsing(char *argv)

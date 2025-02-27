@@ -6,12 +6,11 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:31:02 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/26 14:36:10 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:01:15 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/ft_fdf.h"
-#include "../printf/header/ft_printf.h"
 #include <math.h>
 
 void	ft_init_draw(int *variable, int *diferencial, int final, int inicial)

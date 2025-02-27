@@ -6,7 +6,7 @@
 #    By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 14:55:54 by lbellmas          #+#    #+#              #
-#    Updated: 2025/02/26 14:39:16 by lbellmas         ###   ########.fr        #
+#    Updated: 2025/02/27 11:59:32 by lbellmas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ PRINTF	= $(PRINTFDIR)/libftprintf.a
 MLX = $(BUILD)/libmlx42.a
 GETNEXT	= get_next_line_bonus.c get_next_line_utils_bonus.c
 MAIN	= ft_fdf.c
-SRC	= ft_draw.c ft_mapping.c ft_parsing_args.c ft_setup.c ft_algoritm.c
+SRC	= ft_draw.c ft_mapping.c ft_parsing_args.c ft_setup.c ft_algoritm.c \
+	  ft_extras.c ft_extras2.c ft_keyhook.c
 UTILS	= ft_utils.c ft_utils2.c
 OBJ	= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 OUTILS	= $(addprefix $(OUTILSDIR)/, $(UTILS:.c=.o))

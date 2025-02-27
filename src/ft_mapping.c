@@ -6,12 +6,11 @@
 /*   By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:47:50 by lbellmas          #+#    #+#             */
-/*   Updated: 2025/02/25 11:51:26 by lbellmas         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:01:26 by lbellmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/ft_fdf.h"
-#include "../printf/header/ft_printf.h"
 
 t_map	*ft_mapping(int	**matrix, t_map *map)
 {
