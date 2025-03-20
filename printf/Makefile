@@ -6,7 +6,7 @@
 #    By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/27 14:17:48 by lbellmas          #+#    #+#              #
-#    Updated: 2024/11/28 10:51:15 by lbellmas         ###   ########.fr        #
+#    Updated: 2025/03/20 15:31:48 by lbellmas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ PURPLE      	= \033[0;35m
 CYAN        	= \033[0;36m
 RESET			= \033[m
 
-all: $(NAME) 
+all: $(NAME) $(LIBFT)
 
 -include $(DEPS)
 
@@ -52,7 +52,7 @@ $(LIBFT):
 	@printf "%b" "$(BLUE)$(@F)$(RESET)\n"
 	@$(MAKE) --silent -C $(LIBFTDIR) 
 
-$(NAME): $(OBJS) $(LIBFT) 
+$(NAME): $(OBJS) 
 	@printf "%-42b%b" "$(PURPLE)$(<):" "$(BLUE)$(@F)$(RESET)\n"
 	@cp $(LIBFT) $(NAME)
 	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)

@@ -6,7 +6,7 @@
 #    By: lbellmas <lbellmas@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 14:55:54 by lbellmas          #+#    #+#              #
-#    Updated: 2025/02/27 11:59:32 by lbellmas         ###   ########.fr        #
+#    Updated: 2025/03/20 15:29:36 by lbellmas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,8 @@ CYAN     = \033[0;36m
 RESET    = \033[m
 
 all: $(PRINTF) $(NAME) $(HEAD) Makefile
+
+bonus: all
 
 -include $(DEPS)
 
